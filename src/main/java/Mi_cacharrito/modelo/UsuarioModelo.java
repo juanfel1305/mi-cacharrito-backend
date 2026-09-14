@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="Usuario")
-public class Usuario {
+public class UsuarioModelo {
 	@Id
 	@GeneratedValue(strategy= GenerationType.SEQUENCE)
 	@Column(name="id")
@@ -36,10 +36,10 @@ public class Usuario {
 	@Column(name="vigenciaLicencia")
 	private Date vigenciaLicencia;
 
-	public Usuario() {
+	public UsuarioModelo() {
 	}
 
-	public Usuario(Long identificacion, String nombre, String apellidos, String correo, Date fechaExpedicionLicencia,
+	public UsuarioModelo(Long identificacion, String nombre, String apellidos, String correo, Date fechaExpedicionLicencia,
 			String categoriaLicencia, Date vigenciaLicencia) {
 		super();
 		this.identificacion = identificacion;

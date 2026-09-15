@@ -8,16 +8,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 
-public class UsuarioControlador {
+public class ControladorUsuario {
 	
 	@Autowired
-	private UsuarioControlador repoUsuarioControlador;
+	private ControladorUsuario repoUsuarioControlador;
 
 	
 	@PostMapping("/guardarUsuario/")
-	public ResponseEntity<UsuarioControlador> guardar(@RequestBody UsuarioControlador u){
+	public ResponseEntity<ControladorUsuario> guardar(@RequestBody ControladorUsuario u){
 	    
-		repoUsuarioControlador.save();
 	    
 	    return ResponseEntity.ok(u);
 	}

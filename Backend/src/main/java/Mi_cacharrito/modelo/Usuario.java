@@ -10,8 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="Usuario")
-public class UsuarioModelo {
+@Table(name="usuario")
+public class Usuario {
 	@Id
 	@GeneratedValue(strategy= GenerationType.SEQUENCE)
 	@Column(name="id")
@@ -36,12 +36,12 @@ public class UsuarioModelo {
 	@Column(name="vigenciaLicencia")
 	private Date vigenciaLicencia;
 
-	public UsuarioModelo() {
+	public Usuario() {
 	}
 
-	public UsuarioModelo(Long identificacion, String nombre, String apellidos, String correo, Date fechaExpedicionLicencia,
+	public Usuario(Long identificacion, String nombre, String apellidos, String correo, Date fechaExpedicionLicencia,
 			String categoriaLicencia, Date vigenciaLicencia) {
-		super();
+		
 		this.identificacion = identificacion;
 		this.nombre = nombre;
 		this.apellidos = apellidos;

@@ -23,7 +23,7 @@ public class Alquiler {
 
 
 	@ManyToOne
-    @JoinColumn(name = "Id_usuario", referencedColumnName = "id")
+    @JoinColumn(name = "Id_usuario", referencedColumnName = "Id")
     private Usuario usuario;
 
 
@@ -59,7 +59,6 @@ public class Alquiler {
     public Alquiler(Integer idAlquiler, Usuario usuario, Vehiculo vehiculo, Date fechaInicio,
 			Date fechaEntregaEsperada, float valorAlquiler, String estado, Date fechaEntrega, float valorDiasExtra,
 			float valorTotal) {
-		super();
 		this.idAlquiler = idAlquiler;
 		this.usuario = usuario;
 		this.vehiculo = vehiculo;

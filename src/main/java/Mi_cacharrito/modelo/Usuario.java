@@ -41,7 +41,7 @@ public class Usuario {
 
 	public Usuario(Long identificacion, String nombre, String apellidos, String correo, Date fechaExpedicionLicencia,
 			String categoriaLicencia, Date vigenciaLicencia) {
-		super();
+		
 		this.identificacion = identificacion;
 		this.nombre = nombre;
 		this.apellidos = apellidos;

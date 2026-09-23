@@ -12,117 +12,136 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="usuario")
 public class Usuario {
+
 	@Id
-	@GeneratedValue(strategy= GenerationType.SEQUENCE)
-	@Column(name="id")
-	private Long identificacion;
-	
-	@Column(name="nombre",length=50,nullable=false)
-	private String nombre;
-	
-	@Column(name="apellidos",length=50,nullable=false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="Id_usuario")
+	private Integer idUsuario;
+
+	@Column(name="Documento", length=50, nullable=false, unique=true)
+	private String documento;
+
+	@Column(name="Nombres", length=50, nullable=false)
+	private String nombres;
+
+	@Column(name="Apellidos", length=50, nullable=false)
 	private String apellidos;
-	
-	@Column(name="correo",unique = true )
-	private String correo;
-	
-	@Column(name="fechaExpedicionLicencia")
+
+	@Column(name="Fecha_expedicion_licencia")
 	private Date fechaExpedicionLicencia;
-	
-	@Column(name="categoriaLicencia")
+
+	@Column(name="Categoria_licencia")
 	private String categoriaLicencia;
-	
-	
-	@Column(name="vigenciaLicencia")
-	private Date vigenciaLicencia;
+
+	@Column(name="Fecha_vencimiento_licencia")
+	private Date fechaVencimientoLicencia;
+
+	@Column(name="Correo", unique=true)
+	private String correo;
+
+	@Column(name="Telefono")
+	private String telefono;
+
+	@Column(name="password")
+	private String password;
 
 	public Usuario() {
 	}
 
-	public Usuario(Long identificacion, String nombre, String apellidos, String correo, Date fechaExpedicionLicencia,
-			String categoriaLicencia, Date vigenciaLicencia) {
-		
-		this.identificacion = identificacion;
-		this.nombre = nombre;
+	public Usuario(Integer idUsuario, String documento, String nombres, String apellidos,
+			Date fechaExpedicionLicencia, String categoriaLicencia, Date fechaVencimientoLicencia,
+			String correo, String telefono, String password) {
+
+		this.idUsuario = idUsuario;
+		this.documento = documento;
+		this.nombres = nombres;
 		this.apellidos = apellidos;
-		this.correo = correo;
 		this.fechaExpedicionLicencia = fechaExpedicionLicencia;
 		this.categoriaLicencia = categoriaLicencia;
-		this.vigenciaLicencia = vigenciaLicencia;
+		this.fechaVencimientoLicencia = fechaVencimientoLicencia;
+		this.correo = correo;
+		this.telefono = telefono;
+		this.password = password;
 	}
 
-
-	public Long getIdentificacion() {
-		return identificacion;
+	public Integer getIdUsuario() {
+		return idUsuario;
 	}
 
-
-	public void setIdentificacion(Long identificacion) {
-		this.identificacion = identificacion;
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
-
-	public String getNombre() {
-		return nombre;
+	public String getDocumento() {
+		return documento;
 	}
 
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setDocumento(String documento) {
+		this.documento = documento;
 	}
 
+	public String getNombres() {
+		return nombres;
+	}
+
+	public void setNombres(String nombres) {
+		this.nombres = nombres;
+	}
 
 	public String getApellidos() {
 		return apellidos;
 	}
 
-
 	public void setApellidos(String apellidos) {
 		this.apellidos = apellidos;
 	}
-
-
-	public String getCorreo() {
-		return correo;
-	}
-
-
-	public void setCorreo(String correo) {
-		this.correo = correo;
-	}
-
 
 	public Date getFechaExpedicionLicencia() {
 		return fechaExpedicionLicencia;
 	}
 
-
 	public void setFechaExpedicionLicencia(Date fechaExpedicionLicencia) {
 		this.fechaExpedicionLicencia = fechaExpedicionLicencia;
 	}
-
 
 	public String getCategoriaLicencia() {
 		return categoriaLicencia;
 	}
 
-
 	public void setCategoriaLicencia(String categoriaLicencia) {
 		this.categoriaLicencia = categoriaLicencia;
 	}
 
-
-	public Date getVigenciaLicencia() {
-		return vigenciaLicencia;
+	public Date getFechaVencimientoLicencia() {
+		return fechaVencimientoLicencia;
 	}
 
-
-	public void setVigenciaLicencia(Date vigenciaLicencia) {
-		this.vigenciaLicencia = vigenciaLicencia;
+	public void setFechaVencimientoLicencia(Date fechaVencimientoLicencia) {
+		this.fechaVencimientoLicencia = fechaVencimientoLicencia;
 	}
-	 
 
-	
-	
+	public String getCorreo() {
+		return correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 }

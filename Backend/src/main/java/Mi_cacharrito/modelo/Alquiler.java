@@ -23,8 +23,8 @@ public class Alquiler {
 
 
 	@ManyToOne
-    @JoinColumn(name = "Id_usuario", referencedColumnName = "Id")
-    private Usuario usuario;
+	@JoinColumn(name = "Id_usuario", referencedColumnName = "Id_usuario")
+	private Usuario usuario;
 
 
     @ManyToOne

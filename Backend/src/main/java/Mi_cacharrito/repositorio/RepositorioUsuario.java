@@ -6,7 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import Mi_cacharrito.modelo.Usuario;
 
-public interface RepositorioUsuario extends JpaRepository<Usuario, Long> {
+public interface RepositorioUsuario extends JpaRepository<Usuario, Integer> {
 
-	public List<Usuario> findByNombre(String nombre);
+	public List<Usuario> findByNombres(String nombres);
+
+	public boolean existsByDocumento(String documento);
+
+	public boolean existsByCorreo(String correo);
 }

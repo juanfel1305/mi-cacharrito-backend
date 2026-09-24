@@ -11,4 +11,6 @@ public interface RepositorioUsuario extends JpaRepository<Usuario, Integer> {
 	public List<Usuario> findByNombres(String nombres);
 
 	public boolean existsByDocumento(String documento);
+
+	public boolean existsByCorreo(String correo);
 }

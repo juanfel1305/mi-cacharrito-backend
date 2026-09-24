@@ -2,6 +2,8 @@ package Mi_cacharrito.modelo;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,12 +29,14 @@ public class Usuario {
 	@Column(name="Apellidos", length=50, nullable=false)
 	private String apellidos;
 
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Column(name="Fecha_expedicion_licencia")
 	private Date fechaExpedicionLicencia;
 
 	@Column(name="Categoria_licencia")
 	private String categoriaLicencia;
 
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Column(name="Fecha_vencimiento_licencia")
 	private Date fechaVencimientoLicencia;
 

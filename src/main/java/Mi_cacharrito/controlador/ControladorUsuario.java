@@ -6,7 +6,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import java.util.HashMap;
+import java.util.Map;
+import Mi_cacharrito.modelo.Administrador;
+import Mi_cacharrito.modelo.Usuario;
+import Mi_cacharrito.repositorio.RepositorioAdministrador;
+import Mi_cacharrito.repositorio.RepositorioUsuario;
 import Mi_cacharrito.modelo.Usuario;
 import Mi_cacharrito.repositorio.RepositorioUsuario;
 
@@ -16,6 +21,8 @@ public class ControladorUsuario {
 
 	@Autowired
 	private RepositorioUsuario repoUsuario;
+	@Autowired
+	private RepositorioAdministrador repoAdmin;
 
 	@PostMapping("/RegistrioUsuarios")
 	public ResponseEntity<?> guardar(@RequestBody Usuario u) {
@@ -35,22 +42,40 @@ public class ControladorUsuario {
 	@PostMapping("/IniciarSesion")
 	public ResponseEntity<?> iniciarSesion(@RequestBody Usuario u) {
 
-		Usuario encontrado = repoUsuario.findByDocumento(u.getDocumento());
+		
+		Usuario usuarioEncontrado = repoUsuario.findByDocumento(u.getDocumento());
 
-		if (encontrado == null) {
-			return ResponseEntity.status(404).body("No existe un usuario con ese documento");
+		if (usuarioEncontrado != null) {
+			if (!usuarioEncontrado.getPassword().equals(u.getPassword())) {
+				return ResponseEntity.status(401).body("La contraseña es incorrecta");
+			}
+
+			Map<String, Object> respuesta = new HashMap<>();
+			respuesta.put("idUsuario", usuarioEncontrado.getIdUsuario());
+			respuesta.put("documento", usuarioEncontrado.getDocumento());
+			respuesta.put("nombres", usuarioEncontrado.getNombres());
+			respuesta.put("apellidos", usuarioEncontrado.getApellidos());
+			respuesta.put("correo", usuarioEncontrado.getCorreo());
+			respuesta.put("rol", "USUARIO");
+
+			return ResponseEntity.ok(respuesta);
 		}
 
-		if (!encontrado.getPassword().equals(u.getPassword())) {
-			return ResponseEntity.status(401).body("La contraseña es incorrecta");
+		Administrador adminEncontrado = repoAdmin.findByUsername(u.getDocumento());
+
+		if (adminEncontrado != null) {
+			if (!adminEncontrado.getPassword().equals(u.getPassword())) {
+				return ResponseEntity.status(401).body("La contraseña es incorrecta");
+			}
+
+			Map<String, Object> respuesta = new HashMap<>();
+			respuesta.put("idAdmin", adminEncontrado.getIdAdmin());
+			respuesta.put("username", adminEncontrado.getUsername());
+			respuesta.put("rol", "ADMIN");
+
+			return ResponseEntity.ok(respuesta);
 		}
 
-		// Se devuelve el usuario sin la contraseña
-		Usuario respuesta = new Usuario(encontrado.getIdUsuario(), encontrado.getDocumento(),
-				encontrado.getNombres(), encontrado.getApellidos(), encontrado.getFechaExpedicionLicencia(),
-				encontrado.getCategoriaLicencia(), encontrado.getFechaVencimientoLicencia(),
-				encontrado.getCorreo(), encontrado.getTelefono(), null);
-
-		return ResponseEntity.ok(respuesta);
+		return ResponseEntity.status(404).body("No existe un usuario o administrador con esas credenciales");
 	}
 }

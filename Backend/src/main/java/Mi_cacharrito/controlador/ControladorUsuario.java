@@ -3,8 +3,11 @@ package Mi_cacharrito.controlador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import Mi_cacharrito.modelo.Usuario;
@@ -20,8 +23,6 @@ public class ControladorUsuario {
 	@PostMapping("/RegistrioUsuarios")
 	public ResponseEntity<?> guardar(@RequestBody Usuario u) {
 
-		System.out.println("CONTROLADOR NUEVO");
-
 		if (repoUsuario.existsByDocumento(u.getDocumento())) {
 			return ResponseEntity.status(409).body("Ya existe una cuenta con ese número de documento");
 		}
@@ -33,4 +34,28 @@ public class ControladorUsuario {
 		Usuario guardado = repoUsuario.save(u);
 		return ResponseEntity.ok(guardado);
 	}
+
+	@PostMapping("/IniciarSesion")
+	public ResponseEntity<?> iniciarSesion(@RequestBody Usuario u) {
+
+		Usuario encontrado = repoUsuario.findByDocumento(u.getDocumento());
+
+		if (encontrado == null) {
+			return ResponseEntity.status(404).body("No existe un usuario con ese documento");
+		}
+
+		if (!encontrado.getPassword().equals(u.getPassword())) {
+			return ResponseEntity.status(401).body("La contraseña es incorrecta");
+		}
+
+		// Se devuelve el usuario sin la contraseña
+		Usuario respuesta = new Usuario(encontrado.getIdUsuario(), encontrado.getDocumento(),
+				encontrado.getNombres(), encontrado.getApellidos(), encontrado.getFechaExpedicionLicencia(),
+				encontrado.getCategoriaLicencia(), encontrado.getFechaVencimientoLicencia(),
+				encontrado.getCorreo(), encontrado.getTelefono(), null);
+
+		return ResponseEntity.ok(respuesta);
+	}
+
 }
+

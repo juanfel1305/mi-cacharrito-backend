@@ -21,16 +21,21 @@ public class Alquiler {
     @Column(name = "Id_alquiler")
     private Integer idAlquiler;
 
-
 	@ManyToOne
     @JoinColumn(name = "Id_usuario", referencedColumnName = "Id")
     private Usuario usuario;
 
+<<<<<<< Updated upstream
 
     @ManyToOne
     @JoinColumn(name = "Id_vehiculo", referencedColumnName = "Id_vehiculo")
     private Vehiculo vehiculo;
 
+=======
+	@ManyToOne
+	@JoinColumn(name = "Id_vehiculo", referencedColumnName = "Id_vehiculo")
+	private Vehiculo vehiculo;
+>>>>>>> Stashed changes
     
     @Column(name = "Fecha_inicio")
     private Date fechaInicio;

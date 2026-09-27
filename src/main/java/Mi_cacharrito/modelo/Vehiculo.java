@@ -24,6 +24,9 @@ public class Vehiculo {
 
     @Column(name = "Estado")
     private String Estado;
+    
+    @Column(name = "PrecioDia")
+    private float PrecioDia;
 
     @ManyToOne
     @JoinColumn(name = "Id_Tipo_Vehiculo")

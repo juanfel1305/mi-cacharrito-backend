@@ -24,4 +24,14 @@ public class ControladorAlquiler {
 	public List<Alquiler> buscarAlquileres(@RequestParam("id") Integer id) {
 	    return repoAlquiler.obtenerAlquileresPorUsuario(id);
 	}
+	@GetMapping("/buscarPorPlaca/")
+	public Alquiler buscarPorPlaca(@RequestParam("placa") String placa) {
+	    return repoAlquiler.buscarPorPlaca(placa);
+	}
+
+	@GetMapping("/marcarEntregado/")
+	public String marcarEntregado(@RequestParam("id") Integer id) {
+	    repoAlquiler.marcarEntregado(id);
+	    return "Vehículo marcado como entregado";
+	}
 }

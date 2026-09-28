@@ -6,17 +6,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="Tipo_Vehiculo")
+@Table(name="tipo_vehiculo")
 public class Tipo_Vehiculo {
 		
 		@Id
-		@Column(name="Id_Tipo_Vehiculo")
+		@Column(name="id_tipo_vehiculo")
 		private Integer Id_Tipo_Vehiculo;
 
-		@Column(name="Tipo_Vehiculo")
+		@Column(name="tipo_vehiculo")
 		private String Tipo_Vehiculo;
 		
-		@Column(name="Descripcion")
+		@Column(name="descripcion")
 		private String Descripcion;
 
 		public Tipo_Vehiculo() {}

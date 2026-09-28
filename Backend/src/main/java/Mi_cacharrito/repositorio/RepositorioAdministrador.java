@@ -9,5 +9,7 @@ import Mi_cacharrito.modelo.Usuario;
 
 public interface RepositorioAdministrador  extends JpaRepository< Administrador ,Integer >{
 
+	Administrador findByUsername(String documento);
+
 
 }

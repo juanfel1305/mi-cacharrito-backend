@@ -35,15 +35,24 @@ public class Vehiculo {
     public Vehiculo() {}
 
     public Vehiculo(Integer id_vehiculo, String placa, String marca, String modelo,
-                     String color, String estado, Tipo_Vehiculo tipoVehiculo) {
+                     String color, String estado,float preciodia, Tipo_Vehiculo tipoVehiculo) {
         Id_vehiculo = id_vehiculo;
         Placa = placa;
         Marca = marca;
         Modelo = modelo;
         Color = color;
         Estado = estado;
+        PrecioDia = preciodia;
         this.tipoVehiculo = tipoVehiculo;
     }
+
+	public float getPrecioDia() {
+		return PrecioDia;
+	}
+
+	public void setPrecioDia(float precioDia) {
+		PrecioDia = precioDia;
+	}
 
 	public Integer getId_vehiculo() {
 		return Id_vehiculo;

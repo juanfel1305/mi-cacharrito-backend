@@ -34,6 +34,8 @@ public class ControladorAdministrador {
     @Autowired
     private RepositorioTipo_Vehiculo repositorioTipoVehiculo;
     
+
+   
     @GetMapping("/vehiculos/disponibles")
     public List<Vehiculo> obtenerDisponiblesPorTipo(@RequestParam Integer tipo) {
         return repositorioVehiculo.buscarPorTipoYEstado(tipo, "DISPONIBLE");

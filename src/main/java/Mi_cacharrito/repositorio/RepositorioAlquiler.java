@@ -11,7 +11,7 @@ import Mi_cacharrito.modelo.Alquiler;
 @Repository
 public interface RepositorioAlquiler extends JpaRepository<Alquiler, Integer> {
 	
-	Optional<Alquiler> findById(Integer idAlquiler);
+Optional<Alquiler> findById(Integer idAlquiler);
 	
 	List<Alquiler> findByEstado(String estado);
 

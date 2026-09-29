@@ -33,6 +33,34 @@ public class ControladorAdministrador {
     @Autowired
     private RepositorioTipo_Vehiculo repositorioTipoVehiculo;
     
+SergioCalderon
+    @GetMapping("/vehiculos/disponibles")
+    public List<Vehiculo> obtenerDisponiblesPorTipo(@RequestParam Integer tipo) {
+        return repositorioVehiculo.buscarPorTipoYEstado(tipo, "DISPONIBLE");
+    }
+    
+    @GetMapping("/alquileres/pendientes")
+    public List<Alquiler> obtenerPendientes() {
+        return repositorioAlquiler.findByEstado("PENDIENTE");
+    }
+    
+    @GetMapping("/alquileres/buscar-placa/{placa}")
+    public ResponseEntity<Alquiler> buscarPorPlaca(@PathVariable String placa) {
+        Optional<Alquiler> alquiler = repositorioAlquiler.buscarPorPlacaYEstado(placa, "PENDIENTE");
+        return alquiler.map(ResponseEntity::ok)
+                       .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    
+    @GetMapping("/tipos-vehiculo")
+    public ResponseEntity<List<Tipo_Vehiculo>> obtenerTiposVehiculo() {
+        try {
+            List<Tipo_Vehiculo> tipos = repositorioTipoVehiculo.findAll();
+            return ResponseEntity.ok(tipos);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 
     
 }

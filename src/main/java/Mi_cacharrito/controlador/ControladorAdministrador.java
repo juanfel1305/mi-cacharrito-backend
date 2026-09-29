@@ -33,6 +33,7 @@ public class ControladorAdministrador {
     @Autowired
     private RepositorioTipo_Vehiculo repositorioTipoVehiculo;
     
+SergioCalderon
     @GetMapping("/vehiculos/disponibles")
     public List<Vehiculo> obtenerDisponiblesPorTipo(@RequestParam Integer tipo) {
         return repositorioVehiculo.buscarPorTipoYEstado(tipo, "DISPONIBLE");
@@ -60,5 +61,6 @@ public class ControladorAdministrador {
             return ResponseEntity.internalServerError().build();
         }
     }
+
     
 }

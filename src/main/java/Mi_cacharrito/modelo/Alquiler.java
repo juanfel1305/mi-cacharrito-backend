@@ -25,14 +25,11 @@ public class Alquiler {
 	@JoinColumn(name = "Id_usuario", referencedColumnName = "Id_usuario")
 	private Usuario usuario;
 
-
-
     @ManyToOne
     @JoinColumn(name = "Id_vehiculo", referencedColumnName = "Id_vehiculo")
     private Vehiculo vehiculo;
 
 
-    
     @Column(name = "Fecha_inicio")
     private Date fechaInicio;
 

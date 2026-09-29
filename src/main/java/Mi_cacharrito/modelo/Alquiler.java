@@ -31,15 +31,6 @@ public class Alquiler {
     @JoinColumn(name = "Id_vehiculo", referencedColumnName = "Id_vehiculo")
     private Vehiculo vehiculo;
 
-	@ManyToOne
-	@JoinColumn(name = "Id_vehiculo", referencedColumnName = "Id_vehiculo")
-	private Vehiculo vehiculo;
-
-
-
-	@ManyToOne
-	@JoinColumn(name = "Id_vehiculo", referencedColumnName = "Id_vehiculo")
-	private Vehiculo vehiculo;
 
     
     @Column(name = "Fecha_inicio")

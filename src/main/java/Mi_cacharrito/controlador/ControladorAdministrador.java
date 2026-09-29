@@ -18,13 +18,12 @@ import Mi_cacharrito.repositorio.RepositorioAlquiler;
 import Mi_cacharrito.repositorio.RepositorioVehiculo;
 import Mi_cacharrito.repositorio.RepositorioTipo_Vehiculo;
 
-
 @RestController
 @RequestMapping("/Admin/")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ControladorAdministrador {
 
-
+	
 	@Autowired
     private RepositorioAlquiler repositorioAlquiler;
 
@@ -34,8 +33,8 @@ public class ControladorAdministrador {
     @Autowired
     private RepositorioTipo_Vehiculo repositorioTipoVehiculo;
     
-
-   
+    
+    
     @GetMapping("/vehiculos/disponibles")
     public List<Vehiculo> obtenerDisponiblesPorTipo(@RequestParam Integer tipo) {
         return repositorioVehiculo.buscarPorTipoYEstado(tipo, "DISPONIBLE");
@@ -46,6 +45,7 @@ public class ControladorAdministrador {
         return repositorioAlquiler.findByEstado("PENDIENTE");
     }
     
+    
     @GetMapping("/alquileres/buscar-placa/{placa}")
     public ResponseEntity<Alquiler> buscarPorPlaca(@PathVariable String placa) {
         Optional<Alquiler> alquiler = repositorioAlquiler.buscarPorPlacaYEstado(placa, "PENDIENTE");
@@ -53,17 +53,6 @@ public class ControladorAdministrador {
                        .orElseGet(() -> ResponseEntity.notFound().build());
     }
     
-    @GetMapping("/tipos-vehiculo")
-    public ResponseEntity<List<Tipo_Vehiculo>> obtenerTiposVehiculo() {
-        try {
-            List<Tipo_Vehiculo> tipos = repositorioTipoVehiculo.findAll();
-            return ResponseEntity.ok(tipos);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
-        }
-    }
-
     @PutMapping("/alquileres/{idAlquiler}/entregar")
     public ResponseEntity<Void> marcarComoEntregado(@PathVariable Integer idAlquiler) {
         Optional<Alquiler> opt = repositorioAlquiler.findById(idAlquiler);
@@ -75,8 +64,63 @@ public class ControladorAdministrador {
         }
         return ResponseEntity.notFound().build();
     }
+    
+    
+    @GetMapping("/alquileres/{idAlquiler}")
+    public ResponseEntity<Alquiler> buscarPorNumero(@PathVariable Integer idAlquiler) {
+        Optional<Alquiler> alquiler = repositorioAlquiler.findById(idAlquiler);
+        return alquiler.map(ResponseEntity::ok)
+                       .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    
+    
+    @PutMapping("/alquileres/{idAlquiler}/liberar")
+    public ResponseEntity<Void> marcarComoDisponible(
+            @PathVariable Integer idAlquiler,
+            @RequestBody Map<String, Object> datosLiberacion) {
+
+        Optional<Alquiler> opt = repositorioAlquiler.findById(idAlquiler);
+        if (opt.isPresent()) {
+            Alquiler alquiler = opt.get();
+
+            alquiler.setEstado("FINALIZADO");
+            alquiler.setFechaEntrega(new Date());
 
 
+            if (datosLiberacion.containsKey("valorDiasExtra") && datosLiberacion.get("valorDiasExtra") != null) {
+                float diasExtra = ((Number) datosLiberacion.get("valorDiasExtra")).floatValue();
+                alquiler.setValorDiasExtra(diasExtra);
+            }
 
+            if (datosLiberacion.containsKey("valorTotal") && datosLiberacion.get("valorTotal") != null) {
+                float total = ((Number) datosLiberacion.get("valorTotal")).floatValue();
+                alquiler.setValorTotal(total);
+            }
+
+            repositorioAlquiler.save(alquiler);
+
+
+            Vehiculo vehiculo = alquiler.getVehiculo();
+            if (vehiculo != null) {
+                vehiculo.setEstado("DISPONIBLE");
+                repositorioVehiculo.save(vehiculo);
+            }
+
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+    
+    
+    @GetMapping("/tipos-vehiculo")
+    public ResponseEntity<List<Tipo_Vehiculo>> obtenerTiposVehiculo() {
+        try {
+            List<Tipo_Vehiculo> tipos = repositorioTipoVehiculo.findAll();
+            return ResponseEntity.ok(tipos);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
     
 }

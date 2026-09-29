@@ -10,10 +10,6 @@ import Mi_cacharrito.modelo.Administrador;
 import Mi_cacharrito.modelo.Vehiculo;
 
 public interface RepositorioVehiculo  extends JpaRepository< Vehiculo ,Integer >{
-	@Query(value = "SELECT v.* FROM vehiculo v " +
-            "INNER JOIN Tipo_Vehiculo t ON v.Id_Tipo_Vehiculo = t.Id_Tipo_Vehiculo " +
-            "WHERE t.Id_Tipo_Vehiculo = :idTipoVehiculo AND v.Estado = 'Disponible'",
-    nativeQuery = true)
-public List<Vehiculo> obtenerVehiculosDisponiblesPorTipo(@Param("idTipoVehiculo") Integer idTipoVehiculo);
-
+	@Query(value = "SELECT * FROM vehiculo WHERE Id_Tipo_Vehiculo = :id AND Estado = 'Disponible'", nativeQuery = true)
+	public List<Vehiculo> obtenerDisponiblesPorTipo(@Param("id") Integer id);
 }

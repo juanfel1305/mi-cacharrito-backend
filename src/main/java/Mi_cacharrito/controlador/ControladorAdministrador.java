@@ -30,6 +30,7 @@ public class ControladorAdministrador {
     @Autowired
     private RepositorioTipo_Vehiculo repositorioTipoVehiculo;
 
+
     // --- ALQUILERES ---
 
     @GetMapping("/alquileres/todos")
@@ -73,6 +74,55 @@ public class ControladorAdministrador {
             @PathVariable Integer idAlquiler,
             @RequestBody Map<String, Object> datosLiberacion) {
 
+
+    
+    
+    
+    @GetMapping("/vehiculos/disponibles")
+    public List<Vehiculo> obtenerDisponiblesPorTipo(@RequestParam Integer tipo) {
+        return repositorioVehiculo.buscarPorTipoYEstado(tipo, "DISPONIBLE");
+    }
+    
+    @GetMapping("/alquileres/pendientes")
+    public List<Alquiler> obtenerPendientes() {
+        return repositorioAlquiler.findByEstado("PENDIENTE");
+    }
+    
+    
+    @GetMapping("/alquileres/buscar-placa/{placa}")
+    public ResponseEntity<Alquiler> buscarPorPlaca(@PathVariable String placa) {
+        Optional<Alquiler> alquiler = repositorioAlquiler.buscarPorPlacaYEstado(placa, "PENDIENTE");
+        return alquiler.map(ResponseEntity::ok)
+                       .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    
+    @PutMapping("/alquileres/{idAlquiler}/entregar")
+    public ResponseEntity<Void> marcarComoEntregado(@PathVariable Integer idAlquiler) {
+        Optional<Alquiler> opt = repositorioAlquiler.findById(idAlquiler);
+        if (opt.isPresent()) {
+            Alquiler alquiler = opt.get();
+            alquiler.setEstado("ENTREGADO");
+            repositorioAlquiler.save(alquiler);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+    
+    
+    @GetMapping("/alquileres/{idAlquiler}")
+    public ResponseEntity<Alquiler> buscarPorNumero(@PathVariable Integer idAlquiler) {
+        Optional<Alquiler> alquiler = repositorioAlquiler.findById(idAlquiler);
+        return alquiler.map(ResponseEntity::ok)
+                       .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    
+    
+    @PutMapping("/alquileres/{idAlquiler}/liberar")
+    public ResponseEntity<Void> marcarComoDisponible(
+            @PathVariable Integer idAlquiler,
+            @RequestBody Map<String, Object> datosLiberacion) {
+
+
         Optional<Alquiler> opt = repositorioAlquiler.findById(idAlquiler);
         if (opt.isPresent()) {
             Alquiler alquiler = opt.get();
@@ -80,17 +130,28 @@ public class ControladorAdministrador {
             alquiler.setEstado("FINALIZADO");
             alquiler.setFechaEntrega(new Date());
 
+
             if (datosLiberacion.containsKey("valorDiasExtra") && datosLiberacion.get("valorDiasExtra") != null) {
                 float diasExtra = Float.parseFloat(datosLiberacion.get("valorDiasExtra").toString());
+
+
+            if (datosLiberacion.containsKey("valorDiasExtra") && datosLiberacion.get("valorDiasExtra") != null) {
+                float diasExtra = ((Number) datosLiberacion.get("valorDiasExtra")).floatValue();
+
                 alquiler.setValorDiasExtra(diasExtra);
             }
 
             if (datosLiberacion.containsKey("valorTotal") && datosLiberacion.get("valorTotal") != null) {
+
                 float total = Float.parseFloat(datosLiberacion.get("valorTotal").toString());
+
+                float total = ((Number) datosLiberacion.get("valorTotal")).floatValue();
+
                 alquiler.setValorTotal(total);
             }
 
             repositorioAlquiler.save(alquiler);
+
 
             Vehiculo vehiculo = alquiler.getVehiculo();
             if (vehiculo != null) {
@@ -102,6 +163,7 @@ public class ControladorAdministrador {
         }
         return ResponseEntity.notFound().build();
     }
+
 
     // --- VEHÍCULOS ---
 
@@ -149,6 +211,10 @@ public class ControladorAdministrador {
     }
 
 
+
+    
+    
+
     @GetMapping("/tipos-vehiculo")
     public ResponseEntity<List<Tipo_Vehiculo>> obtenerTiposVehiculo() {
         try {
@@ -159,4 +225,9 @@ public class ControladorAdministrador {
             return ResponseEntity.internalServerError().build();
         }
     }
+
 }
+
+    
+}
+

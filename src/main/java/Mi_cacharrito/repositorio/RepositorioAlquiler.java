@@ -11,7 +11,9 @@ import Mi_cacharrito.modelo.Alquiler;
 @Repository
 public interface RepositorioAlquiler extends JpaRepository<Alquiler, Integer> {
 	
-	Optional<Alquiler> findById(Integer idAlquiler);
+
+Optional<Alquiler> findById(Integer idAlquiler);
+
 	
 	List<Alquiler> findByEstado(String estado);
 
@@ -19,4 +21,7 @@ public interface RepositorioAlquiler extends JpaRepository<Alquiler, Integer> {
 	@Query(value = "SELECT a.* FROM alquiler a INNER JOIN vehiculo v ON a.id_vehiculo = v.id_vehiculo WHERE v.placa = :placa AND a.estado = :estado", nativeQuery = true)
 	Optional<Alquiler> buscarPorPlacaYEstado(@Param("placa") String placa, @Param("estado") String estado);
     
+
+
 }
+

@@ -18,11 +18,13 @@ import Mi_cacharrito.repositorio.RepositorioAlquiler;
 import Mi_cacharrito.repositorio.RepositorioVehiculo;
 import Mi_cacharrito.repositorio.RepositorioTipo_Vehiculo;
 
+
+@RestController
+@RequestMapping("/Admin/")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ControladorAdministrador {
 
 
-
-	
 	@Autowired
     private RepositorioAlquiler repositorioAlquiler;
 
@@ -32,7 +34,6 @@ public class ControladorAdministrador {
     @Autowired
     private RepositorioTipo_Vehiculo repositorioTipoVehiculo;
     
-
     @GetMapping("/vehiculos/disponibles")
     public List<Vehiculo> obtenerDisponiblesPorTipo(@RequestParam Integer tipo) {
         return repositorioVehiculo.buscarPorTipoYEstado(tipo, "DISPONIBLE");
@@ -60,6 +61,7 @@ public class ControladorAdministrador {
             return ResponseEntity.internalServerError().build();
         }
     }
+
     @PutMapping("/alquileres/{idAlquiler}/entregar")
     public ResponseEntity<Void> marcarComoEntregado(@PathVariable Integer idAlquiler) {
         Optional<Alquiler> opt = repositorioAlquiler.findById(idAlquiler);
@@ -71,6 +73,7 @@ public class ControladorAdministrador {
         }
         return ResponseEntity.notFound().build();
     }
+
 
 
     
